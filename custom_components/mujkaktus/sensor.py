@@ -3,6 +3,7 @@ from typing import Any
 from homeassistant.components.sensor import SensorEntity
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
+from homeassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
@@ -17,19 +18,18 @@ async def async_setup_entry(
     """Set up the Můj Kaktus sensors."""
     data = hass.data[DOMAIN][entry.entry_id]
     coordinator = data["coordinator"]
-    entry_id = entry.entry_id
 
     sensors = [
-        KaktusCreditSensor(entry_id, coordinator),
-        KaktusHistorySensor(entry_id, coordinator, "Calls", "calls"),
-        KaktusHistorySensor(entry_id, coordinator, "SMS", "sms"),
-        KaktusHistorySensor(entry_id, coordinator, "Data", "data"),
-        KaktusHistorySensor(entry_id, coordinator, "MMS", "mms"),
-        KaktusHistorySensor(entry_id, coordinator, "Recharges", "recharges"),
-        KaktusHistorySensor(entry_id, coordinator, "Roaming", "roaming"),
-        KaktusHistorySensor(entry_id, coordinator, "Audiotex", "audiotex"),
-        KaktusHistorySensor(entry_id, coordinator, "Other", "other"),
-        KaktusHistorySensor(entry_id, coordinator, "All", "all"),
+        KaktusCreditSensor(entry, coordinator),
+        KaktusHistorySensor(entry, coordinator, "Calls", "calls"),
+        KaktusHistorySensor(entry, coordinator, "SMS", "sms"),
+        KaktusHistorySensor(entry, coordinator, "Data", "data"),
+        KaktusHistorySensor(entry, coordinator, "MMS", "mms"),
+        KaktusHistorySensor(entry, coordinator, "Recharges", "recharges"),
+        KaktusHistorySensor(entry, coordinator, "Roaming", "roaming"),
+        KaktusHistorySensor(entry, coordinator, "Audiotex", "audiotex"),
+        KaktusHistorySensor(entry, coordinator, "Other", "other"),
+        KaktusHistorySensor(entry, coordinator, "All", "all"),
     ]
 
     async_add_entities(sensors)
@@ -38,13 +38,20 @@ async def async_setup_entry(
 class KaktusCreditSensor(CoordinatorEntity, SensorEntity):
     """Representation of a Kaktus Credit sensor."""
 
-    def __init__(self, entry_id, coordinator):
+    def __init__(self, entry, coordinator):
         """Initialize the sensor."""
         super().__init__(coordinator)
         self._attr_name = "Kaktus Credit"
-        self._attr_unique_id = f"{entry_id}_credit"
+        self._attr_unique_id = f"{entry.entry_id}_credit"
         self._attr_native_unit_of_measurement = "Kč"
         self._attr_icon = "mdi:cash-multiple"
+        self._attr_device_info = DeviceInfo(
+            entry_type=DeviceEntryType.SERVICE,
+            identifiers={(DOMAIN, entry.entry_id)},
+            name=f"Můj Kaktus ({entry.data.get('username', '')})",
+            manufacturer="Můj Kaktus",
+            configuration_url="https://mujkaktus.cz",
+        )
 
     @property
     def native_value(self):
@@ -57,13 +64,20 @@ class KaktusCreditSensor(CoordinatorEntity, SensorEntity):
 class KaktusHistorySensor(CoordinatorEntity, SensorEntity):
     """Representation of a Kaktus History sensor."""
 
-    def __init__(self, entry_id, coordinator, name, key):
+    def __init__(self, entry, coordinator, name, key):
         """Initialize the sensor."""
         super().__init__(coordinator)
         self._key = key
         self._attr_name = f"Kaktus {name} History"
-        self._attr_unique_id = f"{entry_id}_{key}_history"
+        self._attr_unique_id = f"{entry.entry_id}_{key}_history"
         self._attr_icon = "mdi:history"
+        self._attr_device_info = DeviceInfo(
+            entry_type=DeviceEntryType.SERVICE,
+            identifiers={(DOMAIN, entry.entry_id)},
+            name=f"Můj Kaktus ({entry.data.get('username', '')})",
+            manufacturer="Můj Kaktus",
+            configuration_url="https://mujkaktus.cz",
+        )
 
     @property
     def native_value(self):
