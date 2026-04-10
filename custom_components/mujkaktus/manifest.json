@@ -1,10 +1,11 @@
 {
   "domain": "mujkaktus",
   "name": "Můj Kaktus",
-  "documentation": "https://github.com/pvranik/hacs_mujkaktus",
-  "issue_tracker": "https://github.com/pvranik/hacs_mujkaktus/issues",
+  "documentation": "https://github.com/konikvranik/hacs_mujkaktus",
+  "issue_tracker": "https://github.com/konikvranik/hacs_mujkaktus/issues",
   "dependencies": [],
   "codeowners": ["@pvranik"],
+  "config_flow": true,
   "requirements": ["pymujkaktus>=0.1.18"],
   "version": "0.1.18",
   "iot_class": "cloud_polling",
