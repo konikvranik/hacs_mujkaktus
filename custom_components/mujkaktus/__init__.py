@@ -4,11 +4,12 @@ from datetime import timedelta
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
-from pymujkaktus import KaktusAPI
+from pymujkaktus import KaktusAPI, KaktusAuthError
 
 from .const import DOMAIN, CONF_USERNAME, CONF_PASSWORD
 
 _LOGGER = logging.getLogger(__name__)
+
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up Můj Kaktus from a config entry."""
@@ -45,12 +46,12 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
     return True
 
+
 def update_api_data(api: KaktusAPI):
     """Synchronous data update."""
     if not api.logged_in:
-        if not api.login():
-            raise Exception("Login failed")
-    
+        api.login()
+
     return {
         "credit": api.get_credit(),
         "calls": api.get_call_history(),
@@ -63,6 +64,7 @@ def update_api_data(api: KaktusAPI):
         "other": api.get_other_history(),
         "all": api.get_all_history(),
     }
+
 
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Unload a config entry."""

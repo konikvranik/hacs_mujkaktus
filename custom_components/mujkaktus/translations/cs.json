@@ -2,8 +2,9 @@
   "config": {
     "step": {
       "user": {
+        "title": "Můj Kaktus",
         "data": {
-          "username": "Uživatelské jméno",
+          "username": "Telefonní číslo",
           "password": "Heslo"
         },
         "description": "Zadejte své přihlašovací údaje do Můj Kaktus."

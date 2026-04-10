@@ -2,8 +2,9 @@
   "config": {
     "step": {
       "user": {
+        "title": "Můj Kaktus",
         "data": {
-          "username": "Username",
+          "username": "Phone number",
           "password": "Password"
         },
         "description": "Enter your Můj Kaktus credentials."

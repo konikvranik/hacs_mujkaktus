@@ -1,9 +1,9 @@
 import voluptuous as vol
 from homeassistant import config_entries
-from homeassistant.core import callback
-from pymujkaktus import KaktusAPI
+from pymujkaktus import KaktusAPI, KaktusAuthError, KaktusConnectionError
 
 from .const import DOMAIN, CONF_USERNAME, CONF_PASSWORD
+
 
 class KaktusConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Handle a config flow for Můj Kaktus."""
@@ -15,16 +15,22 @@ class KaktusConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         errors = {}
         if user_input is not None:
             try:
-                # Validace přihlášení
                 api = KaktusAPI(user_input[CONF_USERNAME], user_input[CONF_PASSWORD])
-                # Pro validaci zkusíme login v executoru
-                success = await self.hass.async_add_executor_job(api.login)
-                if success:
-                    return self.async_create_entry(title="Můj Kaktus", data=user_input)
-                else:
-                    errors["base"] = "invalid_auth"
-            except Exception:
+                await self.hass.async_add_executor_job(api.login)
+
+                await self.async_set_unique_id(user_input[CONF_USERNAME])
+                self._abort_if_already_configured()
+
+                return self.async_create_entry(
+                    title=f"Můj Kaktus ({user_input[CONF_USERNAME]})",
+                    data=user_input,
+                )
+            except KaktusAuthError:
+                errors["base"] = "invalid_auth"
+            except KaktusConnectionError:
                 errors["base"] = "cannot_connect"
+            except Exception:
+                errors["base"] = "unknown"
 
         return self.async_show_form(
             step_id="user",
