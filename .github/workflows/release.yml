@@ -2,19 +2,30 @@ name: Create Release
 
 on:
   push:
-    tags:
-      - 'v*'
+    tags: ["v*"]
 
 jobs:
+  validate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: HACS validation
+        uses: hacs/action@22.5.0
+        with:
+          category: integration
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   release:
-    name: Create Release
+    needs: validate
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
+      - uses: actions/checkout@v4
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
@@ -22,4 +33,3 @@ jobs:
           name: Release ${{ github.ref_name }}
           draft: false
           prerelease: false
-          token: ${{ secrets.CUSTOM_GITHUB_TOKEN || secrets.GITHUB_TOKEN }}
