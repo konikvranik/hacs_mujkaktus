@@ -56,7 +56,12 @@ def update_api_data(api: KaktusAPI):
         "calls": api.get_call_history(),
         "sms": api.get_sms_history(),
         "data": api.get_data_history(),
+        "mms": api.get_mms_history(),
         "recharges": api.get_recharge_history(),
+        "roaming": api.get_roaming_history(),
+        "audiotex": api.get_audiotex_history(),
+        "other": api.get_other_history(),
+        "all": api.get_all_history(),
     }
 
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:

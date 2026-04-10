@@ -22,7 +22,12 @@ async def async_setup_entry(
         KaktusHistorySensor(coordinator, "Calls", "calls"),
         KaktusHistorySensor(coordinator, "SMS", "sms"),
         KaktusHistorySensor(coordinator, "Data", "data"),
+        KaktusHistorySensor(coordinator, "MMS", "mms"),
         KaktusHistorySensor(coordinator, "Recharges", "recharges"),
+        KaktusHistorySensor(coordinator, "Roaming", "roaming"),
+        KaktusHistorySensor(coordinator, "Audiotex", "audiotex"),
+        KaktusHistorySensor(coordinator, "Other", "other"),
+        KaktusHistorySensor(coordinator, "All", "all"),
     ]
 
     async_add_entities(sensors)
