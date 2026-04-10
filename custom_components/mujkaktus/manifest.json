@@ -5,8 +5,8 @@
   "issue_tracker": "https://github.com/pvranik/hacs_mujkaktus/issues",
   "dependencies": [],
   "codeowners": ["@pvranik"],
-  "requirements": ["pymujkaktus>=0.1.17"],
-  "version": "0.1.17",
+  "requirements": ["pymujkaktus>=0.1.18"],
+  "version": "0.1.18",
   "iot_class": "cloud_polling",
   "integration_type": "integration"
 }
