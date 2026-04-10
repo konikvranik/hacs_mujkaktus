@@ -30,5 +30,11 @@ HACS integrace pro sledování stavu kreditu a historie volání, SMS, dat a dob
 3. Vyhledejte **Můj Kaktus**.
 4. Zadejte své přihlašovací jméno a heslo k samoobsluze Kaktus.
 
+## Vývoj a CI/CD
+
+Projekt používá GitHub Actions pro:
+- Validaci integrace pomocí oficiálního HACS action.
+- Automatické vytváření GitHub release při pushnutí tagu (např. `v0.1.10`).
+
 ## Poděkování
 Tato integrace využívá knihovnu [pymujkaktus](https://github.com/pvranik/pymujkaktus).
