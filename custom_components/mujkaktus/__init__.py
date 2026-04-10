@@ -16,7 +16,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     username = entry.data[CONF_USERNAME]
     password = entry.data[CONF_PASSWORD]
 
-    api = KaktusAPI(username, password)
+    api = await hass.async_add_executor_job(KaktusAPI, username, password)
 
     async def async_update_data():
         """Fetch data from API."""

@@ -7,7 +7,7 @@
   "codeowners": ["@pvranik"],
   "config_flow": true,
   "requirements": ["pymujkaktus>=0.1.18"],
-  "version": "0.1.20",
+  "version": "0.1.21",
   "iot_class": "cloud_polling",
   "integration_type": "integration"
 }

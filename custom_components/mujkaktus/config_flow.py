@@ -15,8 +15,15 @@ class KaktusConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         errors = {}
         if user_input is not None:
             try:
-                api = KaktusAPI(user_input[CONF_USERNAME], user_input[CONF_PASSWORD])
-                await self.hass.async_add_executor_job(api.login)
+                username = user_input[CONF_USERNAME]
+                password = user_input[CONF_PASSWORD]
+
+                def _test_login():
+                    api = KaktusAPI(username, password)
+                    api.login()
+                    api.close()
+
+                await self.hass.async_add_executor_job(_test_login)
 
                 await self.async_set_unique_id(user_input[CONF_USERNAME])
                 self._abort_if_already_configured()
