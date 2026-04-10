@@ -1,8 +1,12 @@
+import logging
+
 import voluptuous as vol
 from homeassistant import config_entries
 from pymujkaktus import KaktusAPI, KaktusAuthError, KaktusConnectionError
 
 from .const import DOMAIN, CONF_USERNAME, CONF_PASSWORD
+
+_LOGGER = logging.getLogger(__name__)
 
 
 class KaktusConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
@@ -36,7 +40,8 @@ class KaktusConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 errors["base"] = "invalid_auth"
             except KaktusConnectionError:
                 errors["base"] = "cannot_connect"
-            except Exception:
+            except Exception as exc:
+                _LOGGER.exception("Unexpected error during config flow: %s", exc)
                 errors["base"] = "unknown"
 
         return self.async_show_form(
