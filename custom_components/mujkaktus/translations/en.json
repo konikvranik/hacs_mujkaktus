@@ -4,7 +4,7 @@
       "user": {
         "title": "Můj Kaktus",
         "data": {
-          "username": "Phone number",
+          "username": "Username",
           "password": "Password"
         },
         "description": "Enter your Můj Kaktus credentials."
