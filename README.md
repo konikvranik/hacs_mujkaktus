@@ -34,7 +34,7 @@ HACS integrace pro sledování stavu kreditu a historie volání, SMS, dat a dob
 
 Projekt používá GitHub Actions pro:
 - Validaci integrace pomocí oficiálního HACS action.
-- Automatické vytváření GitHub release při pushnutí tagu (např. `v0.1.10`).
+- Automatické vytváření GitHub release při pushnutí tagu (např. `v0.1.11`).
 
 ## Poděkování
 Tato integrace využívá knihovnu [pymujkaktus](https://github.com/pvranik/pymujkaktus).
