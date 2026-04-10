@@ -18,3 +18,5 @@ jobs:
         with:
           category: integration
           ignore: []
+        env:
+          GITHUB_TOKEN: ${{ secrets.CUSTOM_GITHUB_TOKEN || secrets.GITHUB_TOKEN }}
